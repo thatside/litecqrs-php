@@ -10,7 +10,7 @@ class JMSSerializerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if ( ! $container->has('serializer')) {
+        if ( ! $container->has('jms_serializer')) {
             return;
         }
 
