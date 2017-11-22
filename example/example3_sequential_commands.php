@@ -55,7 +55,7 @@ class StringManipulation
     }
 }
 
-class String
+class MyString
 {
     public $value;
 }
@@ -89,7 +89,7 @@ $commandBus->register('MyApp\Lower', $stringService);
 $commandBus->register('MyApp\Ucfirst', $stringService);
 $commandBus->register('MyApp\RemoveNonAscii', $stringService);
 
-$string = new String();
+$string = new MyString();
 $string->value = isset($argv[1]) ? $argv[1] : "Hello World!";
 $commandBus->handle(new Slugify(array("string" => $string)));
 
