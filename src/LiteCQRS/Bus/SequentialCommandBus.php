@@ -23,6 +23,7 @@ abstract class SequentialCommandBus implements CommandBus
      */
     private $proxyFactories;
     private $commandStack = array();
+    private $deferredCommands = array();
     private $executing = false;
 
     public function __construct(array $proxyFactories = array())
@@ -74,6 +75,18 @@ abstract class SequentialCommandBus implements CommandBus
 
             $this->executing = false;
             $first = false;
+        }
+    }
+
+    public function dispatch($command)
+    {
+        $this->deferredCommands[] = $command;
+    }
+
+    public function handleAll()
+    {
+        while(count($this->deferredCommands)) {
+            $this->handle(array_shift($this->deferredCommands));
         }
     }
 

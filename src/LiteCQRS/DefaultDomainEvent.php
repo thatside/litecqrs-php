@@ -6,7 +6,7 @@ use LiteCQRS\Bus\EventMessageHeader;
 abstract class DefaultDomainEvent implements DomainEvent
 {
     /**
-     * @var MessageHeader
+     * @var EventMessageHeader
      */
     private $messageHeader;
 

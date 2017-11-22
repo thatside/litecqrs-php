@@ -34,5 +34,14 @@ interface EventMessageBus
      * @return void
      */
     public function dispatchEvents();
+
+    /**
+     * Dispatch single event to respective handler
+     *
+     * @param DomainEvent $event
+     *
+     * @return void
+     */
+    public function dispatch($event);
 }
 

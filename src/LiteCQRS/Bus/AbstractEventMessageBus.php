@@ -19,6 +19,11 @@ abstract class AbstractEventMessageBus implements EventMessageBus
         $this->scheduledEvents = new SplObjectStorage();
     }
 
+    public function registerProxyFactory(ProxyFactoryInterface $proxyFactory)
+    {
+        $this->proxyFactories[] = $proxyFactory;
+    }
+
     public function publish($event)
     {
         if ($this->events->contains($event)) {
@@ -42,6 +47,11 @@ abstract class AbstractEventMessageBus implements EventMessageBus
         foreach ($events as $event) {
             $this->handle($event);
         }
+    }
+
+    public function dispatch($event)
+    {
+        $this->handle($event);
     }
 
     protected function sort($events)

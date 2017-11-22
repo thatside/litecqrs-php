@@ -2,6 +2,8 @@
 
 namespace LiteCQRS\Bus;
 
+use LiteCQRS\Saga\AbstractSaga;
+
 class EventInvocationHandler implements MessageHandlerInterface
 {
     private $service;
@@ -17,6 +19,11 @@ class EventInvocationHandler implements MessageHandlerInterface
         $methodName = "on" . $eventName;
 
         $this->service->$methodName($event);
+    }
+
+    public function isSaga()
+    {
+        return is_subclass_of($this->service, AbstractSaga::class);
     }
 }
 

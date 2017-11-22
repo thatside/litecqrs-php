@@ -4,7 +4,7 @@ namespace LiteCQRS\Bus;
 
 use LiteCQRS\EventStore\EventStoreInterface;
 
-class EventMessageHandlerFactory
+class EventMessageHandlerFactory implements ProxyFactoryInterface
 {
     private $messageBus;
     private $queue;
@@ -17,7 +17,7 @@ class EventMessageHandlerFactory
         $this->eventStore  = $eventStore;
     }
 
-    public function __invoke($handler)
+    public function __invoke($handler) : MessageHandlerInterface
     {
         return new EventMessageHandler($handler, $this->messageBus, $this->queue, $this->eventStore);
     }
