@@ -1,6 +1,6 @@
 {
-    "name": "beberlei/lite-cqrs",
-    "description": "Simple Command-Query-Responsibility-Segregation library.",
+    "name": "thatside/lite-cqrs",
+    "description": "Simple Command-Query-Responsibility-Segregation library - forked from beberlei/lite-cqrs with added Saga Pattern support.",
     "license": "MIT",
     "autoload": {
         "psr-4": {"LiteCQRS\\": "src/"}
@@ -9,6 +9,11 @@
         "psr-4": {
             "LiteCQRS\\": "tests/",
             "MyApp\\": "example/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.1"
         }
     },
     "require-dev": {
