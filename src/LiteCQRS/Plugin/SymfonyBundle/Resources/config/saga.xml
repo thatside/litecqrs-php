@@ -23,7 +23,7 @@
             <argument type="service" id="command_bus" />
             <argument type="collection" />
             <tag name="litecqrs.event.proxy_factory" priority="255" />
-        </service>нis
+        </service>
     </services>
 </container>
 
