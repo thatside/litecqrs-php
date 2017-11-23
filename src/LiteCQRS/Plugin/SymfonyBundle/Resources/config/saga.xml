@@ -6,7 +6,7 @@
 
 
     <services>
-        <service id="litecqrs.saga.state_repository" />
+        <service id="litecqrs.saga.state_repository" synthetic="true"/>
 
         <service id="litecqrs.saga.state_repository.in_memory" class="LiteCQRS\Saga\State\Repository\InMemoryStateRepository" />
 

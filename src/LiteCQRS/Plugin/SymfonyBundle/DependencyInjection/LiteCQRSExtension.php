@@ -28,6 +28,7 @@ class LiteCQRSExtension extends Extension
 
         if ($config['saga']) {
             $loader->load('saga.xml');
+            $container->setAlias('litecqrs.saga.state_repository', 'litecqrs.saga.state_repository.in_memory');
         }
     }
 }
