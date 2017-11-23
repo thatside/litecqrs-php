@@ -1,6 +1,6 @@
 <?php
 
-namespace LiteCQRS\Bus;
+namespace LiteCQRS\Commanding;
 
 /**
  * Process Commands and pass them to their handlers in sequential order.
@@ -16,29 +16,16 @@ namespace LiteCQRS\Bus;
  * responsibility. That means the proxy factory registered FIRST is the one
  * that wraps itself around the previous handlers LAST.
  */
-abstract class SequentialCommandBus implements CommandBus
+class SequentialCommandBus implements CommandBus
 {
-    /**
-     * @var callable[]
-     */
-    private $proxyFactories;
+    private $locator;
     private $commandStack = array();
-    private $deferredCommands = array();
     private $executing = false;
 
-    public function __construct(array $proxyFactories = array())
+    public function __construct(CommandHandlerLocator $locator)
     {
-        $this->proxyFactories = $proxyFactories;
+        $this->locator = $locator;
     }
-
-    /**
-     * Given a Command Type (ClassName) return an instance of
-     * the service that is handling this command.
-     *
-     * @param string $commandType A Command Class name
-     * @return object
-     */
-    abstract protected function getService($commandType);
 
     /**
      * Sequentially execute commands
@@ -60,34 +47,37 @@ abstract class SequentialCommandBus implements CommandBus
         $first = true;
 
         while ($command = array_shift($this->commandStack)) {
-            try {
-                $this->executing = true;
-                $type    = get_class($command);
-                $service = $this->getService($type);
-                $handler = new CommandInvocationHandler($service);
-                $handler = $this->proxyHandler($handler);
-
-                $handler->handle($command);
-            } catch(\Exception $e) {
-                $this->executing = false;
-                $this->handleException($e, $first);
-            }
-
-            $this->executing = false;
+            $this->invokeHandler($command, $first);
             $first = false;
         }
     }
 
-    public function dispatch($command)
+    protected function invokeHandler($command, $first)
     {
-        $this->deferredCommands[] = $command;
+        try {
+            $this->executing = true;
+
+            $service = $this->locator->getCommandHandler($command);
+            $method  = $this->getHandlerMethodName($command);
+
+            if (!method_exists($service, $method)) {
+                throw new \RuntimeException("Service " . get_class($service) . " has no method " . $method . " to handle command.");
+            }
+
+            $service->$method($command);
+        } catch (\Exception $e) {
+            $this->executing = false;
+            $this->handleException($e, $first);
+        }
+
+        $this->executing = false;
     }
 
-    public function handleAll()
+    protected function getHandlerMethodName($command)
     {
-        while(count($this->deferredCommands)) {
-            $this->handle(array_shift($this->deferredCommands));
-        }
+        $parts = explode("\\", get_class($command));
+
+        return str_replace("Command", "", lcfirst(end($parts)));
     }
 
     protected function handleException($e, $first)
@@ -95,14 +85,6 @@ abstract class SequentialCommandBus implements CommandBus
         if ($first) {
             throw $e;
         }
-    }
-
-    protected function proxyHandler($handler)
-    {
-        foreach (array_reverse($this->proxyFactories) as $proxyFactory) {
-            $handler = $proxyFactory($handler);
-        }
-        return $handler;
     }
 }
 

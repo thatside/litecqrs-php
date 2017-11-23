@@ -1,51 +1,47 @@
 <?php
 namespace LiteCQRS;
 
-use LiteCQRS\Bus\EventMessageHeader;
+use LiteCQRS\Util;
+use LiteCQRS\Eventing\EventName;
 
 abstract class DefaultDomainEvent implements DomainEvent
 {
     /**
-     * @var EventMessageHeader
+     * @var mixed
      */
-    private $messageHeader;
+    private $aggregateId;
 
     public function __construct(array $data = array())
     {
         foreach ($data as $key => $value) {
-            if (!property_exists($this, $key )) {
-                throw new \RuntimeException("Property " . $key . " is not a valid property on event " . $this->getEventName());
-            }
+            $this->assertPropertyExists($key);
 
             $this->$key = $value;
         }
-        $this->messageHeader = new EventMessageHeader();
     }
 
-    public function getEventName()
+    private function assertPropertyExists($name)
     {
-        $class = get_class($this);
-
-        if (substr($class, -5) === "Event") {
-            $class = substr($class, 0, -5);
+        if (!property_exists($this, $name)) {
+            $eventName = new EventName($this);
+            throw new \RuntimeException("Property " . $name . " is not a valid property on event " . $eventName);
         }
-
-        if (strpos($class, "\\") === false) {
-            return $class;
-        }
-
-        $parts = explode("\\", $class);
-        return end($parts);
     }
 
-    public function getMessageHeader()
+    public function setAggregateId($aggregateId)
     {
-        return $this->messageHeader;
+        $this->aggregateId = $aggregateId;
     }
 
     public function getAggregateId()
     {
-        return $this->messageHeader->aggregateId;
+        return $this->aggregateId;
+    }
+
+    public function __get($name)
+    {
+        $this->assertPropertyExists($name);
+
+        return $this->$name;
     }
 }
-

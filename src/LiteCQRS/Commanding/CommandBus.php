@@ -8,9 +8,5 @@ namespace LiteCQRS\Commanding;
 interface CommandBus
 {
     public function handle($command);
-
-    public function dispatch($command);
-
-    public function handleAll();
 }
 

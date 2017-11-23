@@ -1,34 +1,20 @@
 {
-    "name": "thatside/lite-cqrs",
-    "description": "Simple Command-Query-Responsibility-Segregation library - forked from beberlei/lite-cqrs with added Saga Pattern support.",
+    "name": "beberlei/lite-cqrs",
+    "description": "Simple Command-Query-Responsibility-Segregation library.",
     "license": "MIT",
     "autoload": {
-        "psr-4": {"LiteCQRS\\": "src/"}
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "LiteCQRS\\": "tests/",
-            "MyApp\\": "example/"
-        }
-    },
-    "config": {
-        "platform": {
-            "php": "7.1"
-        }
-    },
-    "require-dev": {
-        "alcaeus/mongo-php-adapter": "^1.1",
-        "doctrine/common": ">=2.0,<2.5",
-        "doctrine/orm": ">=2.0,<2.5",
-        "doctrine/couchdb": "dev-master",
-        "doctrine/mongodb": "dev-master",
-        "symfony/framework-bundle": ">=2.0,<2.2",
-        "symfony/console": ">=2.0,<2.2",
-        "swiftmailer/swiftmailer": "4.*",
-        "jms/serializer-bundle": "@stable"
+        "psr-0": {"LiteCQRS": "src/"}
     },
     "require": {
-        "ramsey/uuid": "^3.7",
-        "phpunit/phpunit": "^6.4"
+        "rhumsaa/uuid": "@stable",
+        "psr/log": "@stable",
+        "php": ">=5.4"
+    },
+    "require-dev": {
+        "phake/phake":"@stable",
+        "doctrine/common": ">=2.0,<2.5",
+        "symfony/framework-bundle": ">=2.0,<2.2",
+        "symfony/console": ">=2.0,<2.2",
+        "swiftmailer/swiftmailer": "4.*"
     }
 }

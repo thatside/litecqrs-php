@@ -4,7 +4,7 @@ Small naming-convention based CQRS library for PHP (loosely based on [LiteCQRS f
 C#](https://github.com/danielwertheim/LiteCQRS)) that relies on the MessageBus,
 Command, EventSourcing and Domain Event patterns.
 
-[![Build Status (Master)](https://travis-ci.org/thatside/litecqrs-php.png?branch=1.2)](https://travis-ci.org/thatside/litecqrs-php)
+[![Build Status (Master)](https://travis-ci.org/beberlei/litecqrs-php.png?branch=master)](https://travis-ci.org/beberlei/litecqrs-php)
 
 **NOTE** Use the 1.1 branch, as the dev-master is currently in heavy refactoring.
 
