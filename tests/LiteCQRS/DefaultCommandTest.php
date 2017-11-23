@@ -2,7 +2,9 @@
 
 namespace LiteCQRS;
 
-class DefaultCommandTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DefaultCommandTest extends TestCase
 {
     public function testCreateArrayMapsToPublicProperties()
     {
@@ -13,7 +15,8 @@ class DefaultCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateThrowsExceptionWhenUnknownPropertySet()
     {
-        $this->setExpectedException('RuntimeException', 'Property "unknown" is not a valid property on command "Test".');
+        $this->expectException('RuntimeException');
+        $this->expectExceptionMessage('Property "unknown" is not a valid property on command "Test".');
         $cmd = new TestCommand(Array("unknown" => "value"));
     }
 }

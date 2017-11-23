@@ -2,6 +2,7 @@
 
 namespace LiteCQRS\Plugin\SymfonyBundle;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
@@ -9,7 +10,7 @@ use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPas
 use LiteCQRS\Plugin\SymfonyBundle\DependencyInjection\LiteCQRSExtension;
 use LiteCQRS\Plugin\SymfonyBundle\DependencyInjection\Compiler\HandlerPass;
 
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends TestCase
 {
     public function testContainer()
     {
@@ -33,19 +34,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         )));
         $loader = new LiteCQRSExtension();
         $container->registerExtension($loader);
-        $container->set('doctrine.dbal.default_connection', $this->getMock('Doctrine\DBAL\Connection', array(), array(), '', false));
-        $container->set('doctrine.orm.default_entity_manager', $this->getMock('Doctrine\ORM\EntityManager', array(), array(), '', false));
-        $container->set('logger', $this->getMock('Monolog\Logger'));
-        $container->set('swiftmailer.transport', $this->getMock('Swift_Transport_SpoolTransport', array(), array(), '', false));
-        $container->set('swiftmailer.transport.real', $this->getMock('Swift_Transport', array(), array(), '', false));
-        $container->set('serializer', $this->getMock('JMS\SerializerBundle\Serializer\SerializerInterface'));
-        $container->set('form.factory', $this->getMock('Symfony\Component\Form\FormFactoryInterface'));
+        $container->set('doctrine.orm.default_entity_manager', $this->getMockClass('Doctrine\ORM\EntityManager', array(), array(), '', false));
+        $container->set('logger', $this->createMock('Monolog\Logger'));
         $loader->load(array(array(
             "orm"              => true,
-            "jms_serializer"   => true,
-            "crud"             => true,
-            "swift_mailer"     => true,
-            "dbal_event_store" => true,
+            "monolog"              => true,
         )), $container);
 
         $container->getCompilerPassConfig()->setAfterRemovingPasses(array(new HandlerPass()));

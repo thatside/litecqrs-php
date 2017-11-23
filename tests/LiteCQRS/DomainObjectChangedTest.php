@@ -2,11 +2,13 @@
 
 namespace LiteCQRS;
 
-class DomainObjectChangedTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DomainObjectChangedTest extends TestCase
 {
     public function testThrowsExceptionOnNonExistent()
     {
-        $this->setExpectedException("RuntimeException");
+        $this->expectException("RuntimeException");
         $event = new DomainObjectChanged("TestEvent", array("foo" => "bar"));
 
         $event->baz;

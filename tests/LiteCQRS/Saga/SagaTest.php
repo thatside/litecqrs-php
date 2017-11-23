@@ -12,21 +12,23 @@ class SagaTest extends TestCase
     public function testSimpleSagaFlow()
     {
         $testSaga = new TestSaga();
-        $testEvent = new ExampleEvent();
+        $testEvent = new MyEvent();
+        $testState = new State(Uuid::uuid4()->toString());
 
-        $this->assertEquals($testEvent->payload, $testSaga->handle($testEvent, new State(Uuid::uuid4())));
+        $this->assertEquals($testEvent->payload, $testSaga->handle($testEvent, $testState)->get('data'));
     }
 }
 
 class TestSaga extends AbstractSaga
 {
-    protected function handleExampleEvent(ExampleEvent $event, State $state)
+    protected function onMyEvent(MyEvent $event, State $state)
     {
-        return $event->payload;
+        $state->set('data', $event->payload);
+        return $state;
     }
 }
 
-class ExampleEvent extends DefaultDomainEvent
+class MyEvent extends DefaultDomainEvent
 {
     public $payload = 'done';
 }

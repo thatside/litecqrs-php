@@ -2,7 +2,9 @@
 
 namespace LiteCQRS;
 
-class DefaultDomainEventTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+class DefaultDomainEventTest extends TestCase
 {
     public function testArrayToProperties()
     {
@@ -13,7 +15,8 @@ class DefaultDomainEventTest extends \PHPUnit_Framework_TestCase
 
     public function testWrongPropertyThrowsException()
     {
-        $this->setExpectedException("RuntimeException", "Property unknown is not a valid property on event Test");
+        $this->expectException("RuntimeException");
+        $this->expectExceptionMessage("Property unknown is not a valid property on event Test");
         $event = new TestEvent(array("unknown" => "value"));
     }
 
