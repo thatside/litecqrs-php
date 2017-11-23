@@ -25,6 +25,10 @@ class LiteCQRSExtension extends Extension
         if ($config['monolog']) {
             $loader->load('monolog.xml');
         }
+
+        if ($config['saga']) {
+            $loader->load('saga.xml');
+        }
     }
 }
 

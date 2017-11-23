@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 
 use LiteCQRS\Plugin\SymfonyBundle\DependencyInjection\LiteCQRSExtension;
-use LiteCQRS\Plugin\SymfonyBundle\DependencyInjection\Compiler\HandlerPass;
+use LiteCQRS\Plugin\SymfonyBundle\DependencyInjection\Compiler\EventPass;
 
 class ContainerTest extends TestCase
 {
@@ -41,7 +41,7 @@ class ContainerTest extends TestCase
             "monolog"              => true,
         )), $container);
 
-        $container->getCompilerPassConfig()->setAfterRemovingPasses(array(new HandlerPass()));
+        $container->getCompilerPassConfig()->setAfterRemovingPasses(array(new EventPass()));
         $container->getCompilerPassConfig()->setRemovingPasses(array());
         $container->compile();
 

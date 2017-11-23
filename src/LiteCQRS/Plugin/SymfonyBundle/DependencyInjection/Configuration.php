@@ -16,6 +16,7 @@ class Configuration implements ConfigurationInterface
             ->root('lite_cqrs')
                 ->children()
                     ->booleanNode('monolog')->defaultTrue()->end()
+                    ->booleanNode('saga')->defaultFalse()->end()
                     ->booleanNode('orm')->defaultFalse()->end()
                 ->end();
 

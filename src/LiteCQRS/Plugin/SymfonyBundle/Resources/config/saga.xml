@@ -1,0 +1,29 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+    <services>
+        <service id="litecqrs.saga.state_repository" />
+
+        <service id="litecqrs.saga.state_repository.in_memory" class="LiteCQRS\Saga\State\Repository\InMemoryStateRepository" />
+
+        <service id="litecqrs.saga.state_manager" class="LiteCQRS\Saga\State\Manager\StateManager">
+            <argument type="service" id="litecqrs.saga.state_repository" />
+        </service>
+
+        <service id="litecqrs.saga.metadata_factory" class="LiteCQRS\Saga\Metadata\StaticallyConfiguredSagaMetadataFactory" />
+
+        <service id="litecqrs.saga.message_handler_factory" class="%litecqrs.saga_message_handler_factory.class%">
+            <argument type="service" id="litecqrs.saga.state_manager" />
+            <argument type="service" id="litecqrs.saga.metadata_factory" />
+            <argument type="service" id="litecqrs.event_message_bus" />
+            <argument type="service" id="command_bus" />
+            <argument type="collection" />
+            <tag name="litecqrs.event.proxy_factory" priority="255" />
+        </service>нis
+    </services>
+</container>
+
