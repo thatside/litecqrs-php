@@ -28,6 +28,13 @@ class DebugCommand extends ContainerAwareCommand
     {
         $container = $this->getContainerBuilder();
 
+        $this->printCommandsData($container, $output);
+
+        $this->printEventsData($container, $output);
+    }
+
+    private function printCommandsData(ContainerBuilder $container, OutputInterface $output)
+    {
         $maxName        = strlen('Command-Handler Service');
         $maxId          = strlen('Command');
         $maxCommandType = strlen('Class');
@@ -83,7 +90,9 @@ class DebugCommand extends ContainerAwareCommand
             }
             $output->writeln('');
         }
+    }
 
+    private function printEventsData(ContainerBuilder $container, OutputInterface $output) {
         $events         = array();
         $maxName        = strlen("Event");
         $maxId          = strlen('Event-Handler Service');

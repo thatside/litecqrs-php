@@ -4,7 +4,6 @@ namespace LiteCQRS\Saga\State\Repository;
 
 use LiteCQRS\Saga\State\Criteria;
 use LiteCQRS\Saga\State\State;
-use LiteCQRS\Saga\State\StateRepositoryInterface;
 
 class InMemoryStateRepository implements StateRepositoryInterface
 {

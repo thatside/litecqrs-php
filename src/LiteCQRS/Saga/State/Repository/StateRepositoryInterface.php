@@ -1,8 +1,11 @@
 <?php
 
 
-namespace LiteCQRS\Saga\State;
+namespace LiteCQRS\Saga\State\Repository;
 
+
+use LiteCQRS\Saga\State\Criteria;
+use LiteCQRS\Saga\State\State;
 
 interface StateRepositoryInterface
 {

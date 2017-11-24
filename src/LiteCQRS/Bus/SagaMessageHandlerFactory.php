@@ -18,14 +18,13 @@ class SagaMessageHandlerFactory implements ProxyFactoryInterface
         StateManagerInterface $stateManager,
         MetadataFactoryInterface $metadataFactory,
         EventMessageBus $eventBus,
-        CommandBus $commandBus,
-        array $sagas
+        CommandBus $commandBus
     ) {
         $this->stateManager = $stateManager;
         $this->metadataFactory = $metadataFactory;
         $this->eventBus = $eventBus;
         $this->commandBus = $commandBus;
-        $this->sagas = $sagas;
+        $this->sagas = array();
     }
 
     public function __invoke($handler) : MessageHandlerInterface
@@ -35,5 +34,10 @@ class SagaMessageHandlerFactory implements ProxyFactoryInterface
         } else {
             return $handler;
         }
+    }
+
+    public function registerSagas(array $sagas)
+    {
+        $this->sagas = $sagas;
     }
 }

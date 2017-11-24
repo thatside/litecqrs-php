@@ -4,7 +4,7 @@ namespace LiteCQRS\Saga\State\Manager;
 
 use LiteCQRS\Saga\State\Criteria;
 use LiteCQRS\Saga\State\State;
-use LiteCQRS\Saga\State\StateRepositoryInterface;
+use LiteCQRS\Saga\State\Repository\StateRepositoryInterface;
 use Ramsey\Uuid\Uuid;
 
 class StateManager implements StateManagerInterface

@@ -3,11 +3,11 @@
     "description": "Simple Command-Query-Responsibility-Segregation library - forked from beberlei/lite-cqrs with added Saga Pattern support.",
     "license": "MIT",
     "autoload": {
-        "psr-4": {"LiteCQRS\\": "src/"}
+        "psr-4": {"LiteCQRS\\": "src/LiteCQRS"}
     },
     "autoload-dev": {
         "psr-4": {
-            "LiteCQRS\\": "tests/",
+            "LiteCQRS\\": "tests/LiteCQRS",
             "MyApp\\": "example/"
         }
     },

@@ -30,9 +30,11 @@ $sagaMessageHandlerFactory = new SagaMessageHandlerFactory(
     new StateManager(new InMemoryStateRepository()),
     new StaticallyConfiguredSagaMetadataFactory(),
     $messageBus,
-    $commandBus,
-    array($saga)
+    $commandBus
 );
+
+$sagaMessageHandlerFactory->registerSagas(array(get_class($saga) => $saga));
+
 $messageBus->registerProxyFactory($sagaMessageHandlerFactory);
 
 $commandBus->register('MyApp\MakeSeatReservation', $commandHandler);
