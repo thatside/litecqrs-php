@@ -19,10 +19,6 @@ class SagaPass extends ProxyLoadingCompilerPass
         }
 
         $sagaProxyFactory = $container->findDefinition('litecqrs.saga.message_handler_factory');
-//        $args = $sagaProxyFactory->getArguments();
-//        $args[4] = $sagas;
-//        $sagaProxyFactory->setArguments($args);
-
         $sagaProxyFactory->addMethodCall('registerSagas', $sagas);
     }
 }
