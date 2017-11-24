@@ -12,7 +12,7 @@ class SagaPass extends ProxyLoadingCompilerPass
         $sagas = array();
         foreach ($container->findTaggedServiceIds('lite_cqrs.saga') as $id => $attributes) {
             $definition = $container->findDefinition($id);
-            $definition->addTag('litecqrs.event.handler');
+            $definition->addTag('lite_cqrs.event.handler');
             $container->setDefinition($id, $definition);
 
             $sagas[$definition->getClass()] = new Reference($id);
