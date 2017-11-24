@@ -17,7 +17,7 @@ class LiteCQRSBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new CommandPass(), PassConfig::TYPE_AFTER_REMOVING);
-        $container->addCompilerPass(new SagaPass(), PassConfig::TYPE_AFTER_REMOVING);
+        $container->addCompilerPass(new SagaPass(), PassConfig::TYPE_OPTIMIZE);
         $container->addCompilerPass(new EventPass(), PassConfig::TYPE_AFTER_REMOVING);
     }
 }
