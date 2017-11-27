@@ -31,6 +31,67 @@ class DebugCommand extends ContainerAwareCommand
         $this->printCommandsData($container, $output);
 
         $this->printEventsData($container, $output);
+
+        $this->printSagaData($container, $output);
+    }
+
+    private function printSagaData(ContainerBuilder $container, OutputInterface $output)
+    {
+        $maxName        = strlen('Saga Service');
+        $maxId          = strlen('Saga Event');
+        $maxSagaClass = strlen('Saga Class');
+        $events       = array();
+
+        foreach ($container->findTaggedServiceIds('lite_cqrs.saga') as $id => $attributes) {
+            $definition = $container->findDefinition($id);
+            $class = $definition->getClass();
+
+            $reflClass = new \ReflectionClass($class);
+            foreach ($reflClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+                if ($method->getNumberOfParameters() != 2) {
+                    continue;
+                }
+
+                $eventParam = $method->getParameters()[0];
+                $stateParam = $method->getParameters()[1];
+
+                if (!$eventParam->getClass()) {
+                    continue;
+                }
+                if (!$stateParam->getClass()) {
+                    continue;
+                }
+
+                $methodName = $method->getName();
+                if (strpos($methodName, "on") !== 0) {
+                    continue;
+                }
+
+                $eventName = (substr($methodName, 2));
+
+                $events[$id][] = array('name' => $eventName, 'id' => $id, 'class' => $class);
+                $maxName       = max(strlen($eventName), $maxName);
+                $maxId         = max(strlen($id), $maxId);
+                $maxEventName  = max(strlen($eventName), $maxSagaClass);
+            }
+        }
+
+        $output->writeln('<info>SAGAS</info>');
+        $output->writeln('<info>========</info>');
+        $output->writeln('');
+
+        $format  = '%-'.$maxId.'s %-'.$maxName.'s %s';
+
+        // the title field needs extra space to make up for comment tags
+        $format1  = '%-'.($maxId + 19).'s %-'.($maxName + 19).'s %s';
+        $output->writeln(sprintf($format1, '<comment>Saga Service</comment>', '<comment>Event</comment>', '<comment>Saga Class</comment>'));
+
+        foreach ($events as $eventId => $eventData) {
+            foreach ($eventData as $event) {
+                $output->writeln(sprintf($format, $eventId, $event['name'], $event['class']));
+            }
+            $output->writeln('');
+        }
     }
 
     private function printCommandsData(ContainerBuilder $container, OutputInterface $output)
