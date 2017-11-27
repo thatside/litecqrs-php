@@ -52,18 +52,18 @@ class SagaMessageHandler implements MessageHandlerInterface
             if (null === $state) {
                 continue;
             }
-            $this->eventBus->dispatch(SagaPreHandleEvent::create($sagaClass, $state->getId()));
+            $this->eventBus->dispatch(SagaPreHandleEvent::create($sagaClass, $state));
 
             $newState = $saga->handle($event, $state);
 
-            $this->eventBus->dispatch(SagaPostHandleEvent::create($sagaClass, $state->getId()));
+            $this->eventBus->dispatch(SagaPostHandleEvent::create($sagaClass, $state));
 
             $this->stateManager->save($newState, $sagaClass);
 
             $this->commandBus->handleAll();
 
             if ($newState->isDone()) {
-                $this->eventBus->dispatch(SagaDoneEvent::create($sagaClass, $state->getId()));
+                $this->eventBus->dispatch(SagaDoneEvent::create($sagaClass, $state));
             }
         }
     }

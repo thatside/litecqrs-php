@@ -30,10 +30,16 @@
             <tag name="litecqrs.command.proxy_factory" priority="255" />
         </service>
 
-        <service id="command_bus" class="%litecqrs.command_bus.class%">
+        <service id="litecqrs.command_bus" class="%litecqrs.command_bus.class%">
             <argument type="service" id="service_container" />
             <argument type="collection" />
         </service>
+
+        <service id="litecqrs.saga.one_off_launcher" class="LiteCQRS\Plugin\SymfonyBundle\Launcher\OneOffSagaLauncher">
+            <argument type="service" id="litecqrs.event_message_bus" />
+        </service>
+
+        <service id="command_bus" alias="litecqrs.command_bus" />
     </services>
 </container>
 

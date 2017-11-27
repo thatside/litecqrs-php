@@ -95,10 +95,10 @@ class ReservationCommandHandler
     public function makeSeatReservation(MakeSeatReservation $command)
     {
         if(true) {
-            echo 'Reservation successful, accepting';
+            echo "Reservation successful, accepting\n";
             $this->eventBus->publish(new ReservationAccepted(array('reservationId' => $command->reservationId())));
         } else {
-            echo 'Reservation unsuccessfull, rejecting';
+            echo "Reservation unsuccessfull, rejecting\n";
             $this->eventBus->publish(new ReservationRejected(array('reservationId' => $command->reservationId())));
         }
     }
@@ -106,12 +106,12 @@ class ReservationCommandHandler
 
     public function markOrderAsBooked(MarkOrderAsBooked $command)
     {
-        echo 'Order booked';
+        echo "Order booked\n";
     }
 
     public function rejectOrder(RejectOrder $order)
     {
-        echo 'Order rejected';
+        echo "Order rejected\n";
     }
 }
 

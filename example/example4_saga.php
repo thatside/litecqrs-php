@@ -7,6 +7,7 @@ use LiteCQRS\Bus\IdentityMap\EventProviderQueue;
 use LiteCQRS\Bus\IdentityMap\SimpleIdentityMap;
 use LiteCQRS\Bus\InMemoryEventMessageBus;
 use LiteCQRS\Bus\SagaMessageHandlerFactory;
+use LiteCQRS\Plugin\SymfonyBundle\Launcher\OneOffSagaLauncher;
 use LiteCQRS\Saga\Metadata\StaticallyConfiguredSagaMetadataFactory;
 use LiteCQRS\Saga\State\Manager\StateManager;
 use LiteCQRS\Saga\State\Repository\InMemoryStateRepository;
@@ -46,3 +47,11 @@ $messageBus->register($saga);
 $event = OrderPlaced::create(Uuid::uuid4()->toString(), 4);
 
 $messageBus->dispatch($event);
+
+echo "\n\n";
+
+$launcher = new OneOffSagaLauncher($messageBus);
+$messageBus->register($launcher);
+$launcher->launch($event);
+$finalState = $launcher->getState();
+var_dump($finalState);
